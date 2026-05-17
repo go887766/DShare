@@ -40,6 +40,7 @@
         <activity android:name=".ui.ProfileActivity" />
         <activity android:name=".ui.PostDetailActivity" />
         <activity android:name=".ui.WalletActivity" />
+        <activity android:name=".ui.EditProfileActivity" />
 
     </application>
 

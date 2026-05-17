@@ -2,14 +2,20 @@ package com.dshare.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +26,8 @@ import com.dshare.crypto.CryptoManager;
 import com.dshare.model.MediaContent;
 import com.dshare.model.Post;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CreatePostActivity extends AppCompatActivity {
@@ -27,13 +35,29 @@ public class CreatePostActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int PICK_VIDEO_REQUEST = 2;
 
+    private static final int MAX_IMAGES = 6;
+    private static final int MAX_VIDEOS = 2;
+
     private EditText etContent;
     private Button btnPickImage;
     private Button btnPickVideo;
-    private ImageView ivPreview;
+    private LinearLayout llMediaPreview;
     private Button btnSubmit;
-    private Uri selectedMediaUri;
-    private int selectedMediaType = 0;
+    private TextView tvMediaHint;
+
+    private List<MediaItem> selectedMediaList = new ArrayList<>();
+
+    private static class MediaItem {
+        Uri uri;
+        String filePath;
+        int type;
+
+        MediaItem(Uri uri, String filePath, int type) {
+            this.uri = uri;
+            this.filePath = filePath;
+            this.type = type;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +67,16 @@ public class CreatePostActivity extends AppCompatActivity {
         etContent = findViewById(R.id.et_content);
         btnPickImage = findViewById(R.id.btn_pick_image);
         btnPickVideo = findViewById(R.id.btn_pick_video);
-        ivPreview = findViewById(R.id.iv_preview);
+        llMediaPreview = findViewById(R.id.ll_media_preview);
         btnSubmit = findViewById(R.id.btn_submit);
 
         btnPickImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (getImageCount() >= MAX_IMAGES) {
+                    Toast.makeText(CreatePostActivity.this, R.string.image_limit_reached, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
@@ -57,6 +85,10 @@ public class CreatePostActivity extends AppCompatActivity {
         btnPickVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (getVideoCount() >= MAX_VIDEOS) {
+                    Toast.makeText(CreatePostActivity.this, R.string.video_limit_reached, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, PICK_VIDEO_REQUEST);
             }
@@ -70,33 +102,151 @@ public class CreatePostActivity extends AppCompatActivity {
         });
     }
 
+    private int getImageCount() {
+        int count = 0;
+        for (MediaItem item : selectedMediaList) {
+            if (item.type == MediaContent.TYPE_IMAGE) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int getVideoCount() {
+        int count = 0;
+        for (MediaItem item : selectedMediaList) {
+            if (item.type == MediaContent.TYPE_VIDEO) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-            selectedMediaUri = data.getData();
-            if (requestCode == PICK_IMAGE_REQUEST) {
-                selectedMediaType = MediaContent.TYPE_IMAGE;
-                ivPreview.setImageURI(selectedMediaUri);
-                ivPreview.setVisibility(View.VISIBLE);
-            } else if (requestCode == PICK_VIDEO_REQUEST) {
-                selectedMediaType = MediaContent.TYPE_VIDEO;
-                ivPreview.setVisibility(View.GONE);
-                Toast.makeText(this, "Video selected", Toast.LENGTH_SHORT).show();
+            Uri uri = data.getData();
+            String filePath = getFilePathFromUri(uri);
+            
+            if (filePath != null) {
+                MediaItem mediaItem = new MediaItem(uri, filePath, 
+                    requestCode == PICK_IMAGE_REQUEST ? MediaContent.TYPE_IMAGE : MediaContent.TYPE_VIDEO);
+                
+                selectedMediaList.add(mediaItem);
+                refreshMediaPreview();
             }
         }
     }
 
+    private void refreshMediaPreview() {
+        llMediaPreview.removeAllViews();
+        
+        if (selectedMediaList.isEmpty()) {
+            llMediaPreview.setVisibility(View.GONE);
+            return;
+        }
+        
+        llMediaPreview.setVisibility(View.VISIBLE);
+        
+        for (int i = 0; i < selectedMediaList.size(); i++) {
+            MediaItem item = selectedMediaList.get(i);
+            llMediaPreview.addView(createMediaPreviewCard(item, i));
+        }
+    }
+
+    private LinearLayout createMediaPreviewCard(MediaItem item, final int position) {
+        LinearLayout card = new LinearLayout(this);
+        card.setLayoutParams(new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(0, 0, 0, 12);
+
+        FrameLayout mediaContainer = new FrameLayout(this);
+        mediaContainer.setLayoutParams(new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            250
+        ));
+        mediaContainer.setBackgroundColor(android.graphics.Color.parseColor("#111111"));
+
+        if (item.type == MediaContent.TYPE_IMAGE) {
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            ));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setImageURI(item.uri);
+            mediaContainer.addView(imageView);
+        } else {
+            ImageView thumbnail = new ImageView(this);
+            thumbnail.setLayoutParams(new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            ));
+            thumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            
+            try {
+                Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(
+                    item.filePath, 
+                    MediaStore.Images.Thumbnails.MINI_KIND
+                );
+                if (bitmap != null) {
+                    thumbnail.setImageBitmap(bitmap);
+                } else {
+                    thumbnail.setBackgroundColor(android.graphics.Color.BLACK);
+                }
+            } catch (Exception e) {
+                thumbnail.setBackgroundColor(android.graphics.Color.BLACK);
+            }
+            
+            mediaContainer.addView(thumbnail);
+            
+            ImageView playIcon = new ImageView(this);
+            FrameLayout.LayoutParams playParams = new FrameLayout.LayoutParams(
+                80, 80
+            );
+            playParams.gravity = Gravity.CENTER;
+            playIcon.setLayoutParams(playParams);
+            playIcon.setImageResource(android.R.drawable.ic_media_play);
+            playIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            mediaContainer.addView(playIcon);
+        }
+
+        card.addView(mediaContainer);
+
+        Button removeBtn = new Button(this);
+        LinearLayout.LayoutParams removeParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        removeParams.topMargin = 8;
+        removeBtn.setLayoutParams(removeParams);
+        removeBtn.setText(R.string.remove);
+        removeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedMediaList.remove(position);
+                refreshMediaPreview();
+            }
+        });
+        card.addView(removeBtn);
+
+        return card;
+    }
+
     private void submitPost() {
         String content = etContent.getText().toString().trim();
-        if (TextUtils.isEmpty(content) && selectedMediaUri == null) {
-            Toast.makeText(this, "Please enter content or select media", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(content) && selectedMediaList.isEmpty()) {
+            Toast.makeText(this, R.string.enter_content_or_media, Toast.LENGTH_SHORT).show();
             return;
         }
 
         DShareApplication app = DShareApplication.getInstance();
         if (app.getWallet() == null) {
-            Toast.makeText(this, "Please login first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.please_login_first, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -105,20 +255,22 @@ public class CreatePostActivity extends AppCompatActivity {
             Post post = new Post();
             post.setPostId(UUID.randomUUID().toString());
             post.setAuthorAddress(app.getWallet().getAddress());
+            
+            if (app.getDatabase().getUser(app.getWallet().getAddress()) != null) {
+                post.setAuthorNickname(app.getDatabase().getUser(app.getWallet().getAddress()).getNickname());
+            }
+            
             post.setContent(content);
             post.setTimestamp(System.currentTimeMillis());
 
-            if (selectedMediaUri != null && selectedMediaType > 0) {
-                String filePath = getFilePathFromUri(selectedMediaUri);
-                if (filePath != null) {
-                    MediaContent media = new MediaContent(
-                        UUID.randomUUID().toString(),
-                        CryptoManager.generateContentHash(filePath.getBytes()),
-                        selectedMediaType
-                    );
-                    media.setFilePath(filePath);
-                    post.addMedia(media);
-                }
+            for (MediaItem mediaItem : selectedMediaList) {
+                MediaContent media = new MediaContent(
+                    UUID.randomUUID().toString(),
+                    CryptoManager.generateContentHash(mediaItem.filePath.getBytes()),
+                    mediaItem.type
+                );
+                media.setFilePath(mediaItem.filePath);
+                post.addMedia(media);
             }
 
             String dataToSign = post.getPostId() + post.getContent() + post.getTimestamp();
@@ -126,20 +278,19 @@ public class CreatePostActivity extends AppCompatActivity {
 
             app.getDatabase().savePost(post);
 
-            // Broadcast post to P2P network
             if (app.getP2PNode() != null && app.getP2PNode().isRunning()) {
                 com.dshare.network.MessageProtocol msg = new com.dshare.network.MessageProtocol(
                     com.dshare.network.MessageProtocol.TYPE_POST,
                     app.getWallet().getAddress(),
-                    app.getDatabase().getUser(app.getWallet().getAddress()).getNickname()
+                    post.getAuthorNickname()
                 );
                 app.getP2PNode().broadcastMessage(msg);
             }
 
-            Toast.makeText(this, "Post published successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.post_published_success, Toast.LENGTH_SHORT).show();
             finish();
         } catch (Exception e) {
-            Toast.makeText(this, "Failed to publish: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.publish_failed) + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -148,12 +299,31 @@ public class CreatePostActivity extends AppCompatActivity {
         if (uri != null) {
             String[] projection = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+            
             if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    filePath = cursor.getString(columnIndex);
+                try {
+                    if (cursor.moveToFirst()) {
+                        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        filePath = cursor.getString(columnIndex);
+                    }
+                } catch (Exception e) {
+                    cursor.close();
+                    
+                    projection = new String[]{MediaStore.Video.Media.DATA};
+                    cursor = getContentResolver().query(uri, projection, null, null, null);
+                    
+                    if (cursor != null && cursor.moveToFirst()) {
+                        try {
+                            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+                            filePath = cursor.getString(columnIndex);
+                        } catch (Exception e2) {
+                        }
+                    }
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
                 }
-                cursor.close();
             }
         }
         return filePath;

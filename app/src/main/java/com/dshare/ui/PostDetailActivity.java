@@ -1,9 +1,17 @@
 package com.dshare.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,10 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dshare.DShareApplication;
 import com.dshare.R;
 import com.dshare.model.Comment;
+import com.dshare.model.MediaContent;
 import com.dshare.model.Post;
 import com.dshare.ui.adapters.CommentAdapter;
 
+import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class PostDetailActivity extends AppCompatActivity {
@@ -33,6 +44,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private RecyclerView rvComments;
     private EditText etComment;
     private Button btnSubmitComment;
+    private LinearLayout llMediaContainer;
     private String postId;
 
     @Override
@@ -53,6 +65,7 @@ public class PostDetailActivity extends AppCompatActivity {
         rvComments = findViewById(R.id.rv_comments);
         etComment = findViewById(R.id.et_comment);
         btnSubmitComment = findViewById(R.id.btn_submit_comment);
+        llMediaContainer = findViewById(R.id.ll_media_container);
 
         loadPostDetails();
         loadComments();
@@ -83,12 +96,79 @@ public class PostDetailActivity extends AppCompatActivity {
         DShareApplication app = DShareApplication.getInstance();
         Post post = app.getDatabase().getPost(postId);
         if (post != null) {
-            tvAuthor.setText("Author: " + post.getAuthorNickname() + " (" + post.getAuthorAddress().substring(0, 10) + "...)");
+            String authorDisplay = post.getAuthorNickname();
+            if (authorDisplay == null || authorDisplay.isEmpty()) {
+                authorDisplay = post.getAuthorAddress().substring(0, 10) + "...";
+            }
+            tvAuthor.setText(getString(R.string.author_prefix) + authorDisplay);
             tvContent.setText(post.getContent());
-            tvTimestamp.setText("Posted: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault()).format(new java.util.Date(post.getTimestamp())));
-            tvLikes.setText("Likes: " + post.getLikeCount());
-            tvDislikes.setText("Dislikes: " + post.getDislikeCount());
-            tvGoldReward.setText("Gold Reward: " + post.getGoldReward());
+            tvTimestamp.setText(getString(R.string.posted_prefix) + new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new java.util.Date(post.getTimestamp())));
+            tvLikes.setText(getString(R.string.likes_prefix) + post.getLikeCount());
+            tvDislikes.setText(getString(R.string.dislikes_prefix) + post.getDislikeCount());
+            tvGoldReward.setText(getString(R.string.gold_reward_prefix) + post.getGoldReward());
+            
+            loadMedia(post);
+        }
+    }
+
+    private void loadMedia(Post post) {
+        llMediaContainer.removeAllViews();
+        
+        if (post.getMediaList() == null || post.getMediaList().isEmpty()) {
+            llMediaContainer.setVisibility(View.GONE);
+            return;
+        }
+        
+        llMediaContainer.setVisibility(View.VISIBLE);
+        
+        for (MediaContent media : post.getMediaList()) {
+            File mediaFile = new File(media.getFilePath());
+            if (mediaFile.exists()) {
+                if (media.getType() == MediaContent.TYPE_IMAGE) {
+                    ImageView imageView = new ImageView(this);
+                    imageView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        400
+                    ));
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeFile(media.getFilePath());
+                        imageView.setImageBitmap(bitmap);
+                    } catch (Exception e) {
+                        imageView.setImageResource(android.R.drawable.ic_menu_gallery);
+                    }
+                    
+                    llMediaContainer.addView(imageView);
+                } else if (media.getType() == MediaContent.TYPE_VIDEO) {
+                    LinearLayout videoLayout = new LinearLayout(this);
+                    videoLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        400
+                    ));
+                    videoLayout.setOrientation(LinearLayout.VERTICAL);
+                    videoLayout.setBackgroundColor(Color.BLACK);
+                    
+                    ImageView playIcon = new ImageView(this);
+                    playIcon.setLayoutParams(new LinearLayout.LayoutParams(
+                        100,
+                        100
+                    ));
+                    playIcon.setImageResource(android.R.drawable.ic_media_play);
+                    playIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    
+                    LinearLayout playContainer = new LinearLayout(this);
+                    playContainer.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
+                    ));
+                    playContainer.setGravity(Gravity.CENTER);
+                    playContainer.addView(playIcon);
+                    
+                    videoLayout.addView(playContainer);
+                    llMediaContainer.addView(videoLayout);
+                }
+            }
         }
     }
 
@@ -145,13 +225,13 @@ public class PostDetailActivity extends AppCompatActivity {
     private void submitComment() {
         String commentText = etComment.getText().toString().trim();
         if (commentText.isEmpty()) {
-            Toast.makeText(this, "Please enter a comment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.enter_comment, Toast.LENGTH_SHORT).show();
             return;
         }
 
         DShareApplication app = DShareApplication.getInstance();
         if (app.getWallet() == null) {
-            Toast.makeText(this, "Please login first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.please_login_first, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -168,12 +248,12 @@ public class PostDetailActivity extends AppCompatActivity {
             comment.setSignature(app.getWallet().sign(dataToSign));
 
             app.getDatabase().saveComment(comment);
-            Toast.makeText(this, "Comment added!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.comment_added, Toast.LENGTH_SHORT).show();
             etComment.setText("");
             loadComments();
             loadPostDetails();
         } catch (Exception e) {
-            Toast.makeText(this, "Failed to add comment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.add_comment_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

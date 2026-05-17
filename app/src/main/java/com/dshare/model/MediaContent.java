@@ -39,4 +39,6 @@ public class MediaContent implements Serializable {
 
     public String getMimeType() { return mimeType; }
     public void setMimeType(String mimeType) { this.mimeType = mimeType; }
+
+    public int getType() { return mediaType; }
 }

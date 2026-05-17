@@ -18,6 +18,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: 'gradle'
         
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
@@ -25,14 +26,32 @@ jobs:
     - name: Create local.properties
       run: |
         echo "sdk.dir=$ANDROID_HOME" > local.properties
+        cat local.properties
+        
+    - name: Check Gradle files
+      run: |
+        ls -la gradle/wrapper/
+        cat gradle/wrapper/gradle-wrapper.properties
+        
+    - name: Download Gradle Wrapper
+      run: |
+        mkdir -p gradle/wrapper
+        curl -L -o gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/v8.2.0/gradle/wrapper/gradle-wrapper.jar
+        cat gradle/wrapper/gradle-wrapper.properties
         
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       
-    - name: Build Debug APK
-      run: ./gradlew assembleDebug
+    - name: Build with Gradle
+      run: ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tail -100
       
+    - name: Check build output
+      if: success()
+      run: |
+        ls -la app/build/outputs/apk/debug/
+        
     - name: Upload APK
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: DShare-debug APK

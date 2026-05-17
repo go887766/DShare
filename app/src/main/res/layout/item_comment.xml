@@ -10,28 +10,28 @@
         android:id="@+id/tv_comment_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Author"
+        android:text="@string/author"
         android:textStyle="bold"
         android:textSize="13sp" />
     <TextView
         android:id="@+id/tv_comment_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time"
+        android:text="@string/time"
         android:textSize="11sp"
         android:textColor="#888" />
     <TextView
         android:id="@+id/tv_comment_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Comment"
+        android:text="@string/comment"
         android:textSize="14sp"
         android:layout_marginTop="4dp" />
     <TextView
         android:id="@+id/tv_comment_likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Likes: 0"
+        android:text="点赞：0"
         android:textSize="11sp"
         android:layout_marginTop="4dp" />
 </LinearLayout>

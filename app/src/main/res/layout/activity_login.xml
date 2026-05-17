@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DShare Login"
+        android:text="@string/login_title"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_marginBottom="40dp" />
@@ -16,7 +16,7 @@
         android:id="@+id/et_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Wallet Address"
+        android:hint="@string/wallet_address_hint"
         android:inputType="text"
         android:padding="12dp"
         android:background="@android:drawable/editbox_background" />
@@ -24,7 +24,7 @@
         android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/password_hint"
         android:inputType="textPassword"
         android:padding="12dp"
         android:layout_marginTop="12dp"
@@ -33,14 +33,14 @@
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login"
         android:layout_marginTop="24dp"
         android:backgroundTint="#1A237E" />
     <TextView
         android:id="@+id/tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Register"
+        android:text="@string/no_account_register"
         android:layout_marginTop="16dp"
         android:textColor="#1A237E"
         android:textSize="14sp" />

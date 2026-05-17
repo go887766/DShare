@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Post"
+        android:text="@string/create_post_title"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
@@ -15,7 +15,7 @@
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:hint="What's on your mind?"
+        android:hint="@string/whats_on_your_mind"
         android:gravity="top"
         android:padding="12dp"
         android:background="@android:drawable/editbox_background" />
@@ -29,14 +29,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Image"
+            android:text="@string/add_image"
             android:layout_marginEnd="8dp" />
         <Button
             android:id="@+id/btn_pick_video"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Video" />
+            android:text="@string/add_video" />
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_preview"
@@ -48,6 +48,6 @@
         android:id="@+id/btn_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Publish"
+        android:text="@string/publish"
         android:layout_marginTop="16dp" />
 </LinearLayout>

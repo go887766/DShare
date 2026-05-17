@@ -15,21 +15,21 @@
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Author"
+            android:text="@string/author"
             android:textStyle="bold"
             android:textSize="14sp" />
         <TextView
             android:id="@+id/tv_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time"
+            android:text="@string/time"
             android:textSize="12sp"
             android:textColor="#888" />
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Content"
+            android:text="@string/content"
             android:textSize="16sp"
             android:layout_marginTop="8dp" />
         <LinearLayout
@@ -42,27 +42,27 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Likes: 0"
+                android:text="点赞：0"
                 android:textSize="12sp" />
             <TextView
                 android:id="@+id/tv_dislikes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dislikes: 0"
+                android:text="踩：0"
                 android:textSize="12sp" />
             <TextView
                 android:id="@+id/tv_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Comments: 0"
+                android:text="评论：0"
                 android:textSize="12sp" />
             <TextView
                 android:id="@+id/tv_gold_reward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 Gold"
+                android:text="0 金币"
                 android:textSize="12sp"
                 android:textColor="#FF6F00" />
         </LinearLayout>
@@ -76,14 +76,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Like"
+                android:text="@string/like"
                 android:layout_marginEnd="8dp" />
             <Button
                 android:id="@+id/btn_comment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Comment" />
+                android:text="@string/btn_comment" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

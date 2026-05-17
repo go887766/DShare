@@ -39,7 +39,7 @@ public class MainFeedActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("DShare - Global Feed");
+        getSupportActionBar().setTitle(R.string.global_feed_title);
 
         rvFeed = findViewById(R.id.rv_feed);
         swipeRefresh = findViewById(R.id.swipe_refresh);
@@ -102,7 +102,7 @@ public class MainFeedActivity extends AppCompatActivity {
                 tvEmpty.setVisibility(View.GONE);
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Error loading posts: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.loading_posts_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         progressBar.setVisibility(View.GONE);
         swipeRefresh.setRefreshing(false);

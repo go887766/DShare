@@ -259,6 +259,14 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 post.setDislikeCount(cursor.getInt(7));
                 post.setCommentCount(cursor.getInt(8));
                 post.setGoldReward(cursor.getInt(9));
+                String likedByJson = cursor.getString(10);
+                if (likedByJson != null) {
+                    post.setLikedBy(gson.fromJson(likedByJson, new TypeToken<List<String>>(){}.getType()));
+                }
+                String dislikedByJson = cursor.getString(11);
+                if (dislikedByJson != null) {
+                    post.setDislikedBy(gson.fromJson(dislikedByJson, new TypeToken<List<String>>(){}.getType()));
+                }
                 post.setSignature(cursor.getString(12));
                 return post;
             }

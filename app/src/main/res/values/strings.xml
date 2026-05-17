@@ -133,4 +133,10 @@
     <string name="likes_default">点赞：0</string>
     <string name="dislikes_default">踩：0</string>
     <string name="gold_reward_default">金币奖励：0</string>
+    
+    <string name="no_posts_yet_feed">暂无帖子，快来发布第一个吧！</string>
+    <string name="likes_colon_feed">点赞：</string>
+    <string name="dislikes_colon_feed">踩：</string>
+    <string name="comments_colon_feed">评论：</string>
+    <string name="gold_colon_feed">金币：</string>
 </resources>

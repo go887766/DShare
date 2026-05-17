@@ -63,6 +63,10 @@ public class CreatePostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+        
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.create_post_title);
+        }
 
         etContent = findViewById(R.id.et_content);
         btnPickImage = findViewById(R.id.btn_pick_image);

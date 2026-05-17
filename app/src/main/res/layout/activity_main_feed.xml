@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="No posts yet. Create the first one!"
+                android:text="@string/no_posts_yet_feed"
                 android:textSize="16sp"
                 android:visibility="gone" />
         </RelativeLayout>

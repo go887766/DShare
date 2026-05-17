@@ -33,6 +33,13 @@
             android:textSize="16sp"
             android:layout_marginTop="8dp" />
         <LinearLayout
+            android:id="@+id/ll_media_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -42,27 +49,27 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="点赞：0"
+                android:text="@string/likes_default"
                 android:textSize="12sp" />
             <TextView
                 android:id="@+id/tv_dislikes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="踩：0"
+                android:text="@string/dislikes_default"
                 android:textSize="12sp" />
             <TextView
                 android:id="@+id/tv_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="评论：0"
+                android:text="@string/comments_colon"
                 android:textSize="12sp" />
             <TextView
                 android:id="@+id/tv_gold_reward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 金币"
+                android:text="@string/wallet_balance_default"
                 android:textSize="12sp"
                 android:textColor="#FF6F00" />
         </LinearLayout>

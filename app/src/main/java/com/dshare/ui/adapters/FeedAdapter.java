@@ -50,7 +50,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
         holder.tvAuthor.setText(post.getAuthorNickname() != null && !post.getAuthorNickname().isEmpty()
-                ? post.getAuthorNickname().substring(0, Math.min(8, post.getAuthorAddress().length())) + "...");
+                ? post.getAuthorNickname().substring(0, Math.min(8, post.getAuthorNickname().length())) + "..."
+                : post.getAuthorAddress());
         holder.tvContent.setText(post.getContent());
         holder.tvTimestamp.setText(sdf.format(new Date(post.getTimestamp())));
         holder.tvLikes.setText("Likes: " + post.getLikeCount());

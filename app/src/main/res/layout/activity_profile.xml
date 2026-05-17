@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Profile"
+            android:text="@string/my_profile"
             android:textSize="28sp"
             android:textStyle="bold"
             android:layout_marginBottom="30dp" />
@@ -19,7 +19,7 @@
             android:id="@+id/tv_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Address: "
+            android:text="@string/address_colon"
             android:textSize="14sp"
             android:padding="8dp"
             android:background="#F5F5F5"
@@ -28,7 +28,7 @@
             android:id="@+id/tv_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nickname: "
+            android:text="@string/nickname_colon"
             android:textSize="16sp"
             android:padding="8dp"
             android:background="#F5F5F5"
@@ -37,7 +37,7 @@
             android:id="@+id/tv_bio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bio: "
+            android:text="@string/bio_colon"
             android:textSize="16sp"
             android:padding="8dp"
             android:background="#F5F5F5"
@@ -46,7 +46,7 @@
             android:id="@+id/tv_post_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Posts: 0"
+            android:text="帖子：0"
             android:textSize="16sp"
             android:padding="8dp"
             android:background="#F5F5F5"
@@ -55,7 +55,7 @@
             android:id="@+id/tv_gold_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gold: 0"
+            android:text="金币：0"
             android:textSize="16sp"
             android:padding="8dp"
             android:background="#F5F5F5"
@@ -64,7 +64,7 @@
             android:id="@+id/btn_edit_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
+            android:text="@string/edit_profile"
             android:layout_marginTop="16dp" />
     </LinearLayout>
 </ScrollView>

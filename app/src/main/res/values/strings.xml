@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DShare</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="create_post">Create Post</string>
+    <string name="profile">Profile</string>
+    <string name="wallet">Wallet</string>
+    <string name="logout">Logout</string>
+</resources>

@@ -13,3 +13,9 @@ local.properties
 job-logs/
 latest-logs/
 /target
+
+# Automation scripts (contain tokens)
+*.ps1
+*.cmd
+*.bat
+body.json

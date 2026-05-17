@@ -38,11 +38,20 @@
             android:layout_weight="1"
             android:text="@string/add_video" />
     </LinearLayout>
-    <ImageView
-        android:id="@+id/iv_preview"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="12dp"
+    <TextView
+        android:id="@+id/tv_media_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/media_limit_hint"
+        android:textSize="12sp"
+        android:textColor="#888888"
+        android:layout_marginTop="8dp" />
+    <LinearLayout
+        android:id="@+id/ll_media_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
         android:visibility="gone" />
     <Button
         android:id="@+id/btn_submit"

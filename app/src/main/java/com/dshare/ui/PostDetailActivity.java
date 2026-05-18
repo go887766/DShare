@@ -49,7 +49,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private RecyclerView rvComments;
     private EditText etComment;
     private Button btnSubmitComment;
-    private LinearLayout llMediaContainer;
+    private RecyclerView rvMediaDetail;
     private String postId;
 
     @Override

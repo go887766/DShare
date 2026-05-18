@@ -52,6 +52,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private TextView tvMediaHint;
 
     private List<MediaItem> selectedMediaList = new ArrayList<>();
+    private ContentManager contentManager;
 
     private static class MediaItem {
         Uri uri;
@@ -69,6 +70,8 @@ public class CreatePostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+        
+        contentManager = DShareApplication.getInstance().getContentManager();
         
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.create_post_title);

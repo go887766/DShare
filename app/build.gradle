@@ -18,9 +18,9 @@ android {
     signingConfigs {
         release {
             storeFile file('keystore/release.keystore')
-            storePassword 'android'
-            keyAlias 'release'
-            keyPassword 'android'
+            storePassword 'dshare2024'
+            keyAlias 'dshare'
+            keyPassword 'dshare2024'
         }
     }
 
@@ -30,7 +30,7 @@ android {
         }
         release {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

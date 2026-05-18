@@ -5,22 +5,44 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
     
-    <!-- 绿色方形圆角背景 -->
+    <!-- 绿色渐变效果的背景（使用多个层次实现） -->
+    <path
+        android:fillColor="#388E3C"
+        android:pathData="M0,0 L108,0 L108,108 L0,108 Z"/>
+    
+    <!-- 外部圆角矩形 - 深绿色 -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M24,20 L84,20 Q92,20 92,28 L92,80 Q92,88 84,88 L24,88 Q16,88 16,80 L16,28 Q16,20 24,20 Z"/>
+    
+    <!-- 内部圆角矩形 - 主绿色 -->
     <path
         android:fillColor="#4CAF50"
-        android:pathData="M24,24 L84,24 Q88,24 88,28 L88,80 Q88,84 84,84 L24,84 Q20,84 20,80 L20,28 Q20,24 24,24 Z"/>
+        android:pathData="M28,24 L80,24 Q86,24 86,30 L86,78 Q86,84 80,84 L28,84 Q22,84 22,78 L22,30 Q22,24 28,24 Z"/>
     
-    <!-- 白色分享图标 -->
-    <!-- 左侧箭头 -->
+    <!-- 高光效果 - 顶部 -->
+    <path
+        android:fillColor="#66BB6A"
+        android:pathData="M28,24 L80,24 Q86,24 86,30 L86,40 Q22,40 22,30 Q22,24 28,24 Z"/>
+    
+    <!-- 分享图标 - 白色主体 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M42,46 L42,40 L50,40 L50,36 L60,44 L50,52 L50,48 L42,48 Z"/>
-    <!-- 右侧箭头 -->
+        android:pathData="M42,44 L42,40 L50,40 L50,36 L60,44 L50,52 L50,48 L42,48 Z"/>
+    
+    <!-- 分享图标 - 右箭头 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M42,50 L50,50 L50,54 L60,62 L50,70 L50,66 L42,66 Z"/>
-    <!-- 中间矩形 -->
+        android:pathData="M42,52 L50,52 L50,56 L60,64 L50,72 L50,68 L42,68 Z"/>
+    
+    <!-- 分享图标 - 中间连接 -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M52,44 L64,44 L64,52 L52,52 Z"/>
+    
+    <!-- 阴影效果 -->
+    <path
+        android:fillColor="#1B5E20"
+        android:fillAlpha="0.3"
+        android:pathData="M28,78 L80,78 Q86,78 86,84 L86,84 L22,84 Q22,84 22,78 Z"/>
 </vector>

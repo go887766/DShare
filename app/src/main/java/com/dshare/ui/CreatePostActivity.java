@@ -27,6 +27,7 @@ import com.dshare.crypto.CryptoManager;
 import com.dshare.model.MediaContent;
 import com.dshare.model.Post;
 import com.dshare.storage.ContentManager;
+import com.dshare.ui.adapters.PreviewMediaAdapter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

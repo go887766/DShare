@@ -39,7 +39,7 @@ public class MainFeedActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.global_feed_title);
+        getSupportActionBar().setTitle("信息列表");
 
         rvFeed = findViewById(R.id.rv_feed);
         swipeRefresh = findViewById(R.id.swipe_refresh);

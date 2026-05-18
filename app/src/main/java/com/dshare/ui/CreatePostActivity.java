@@ -3,6 +3,7 @@ package com.dshare.ui;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +26,12 @@ import com.dshare.R;
 import com.dshare.crypto.CryptoManager;
 import com.dshare.model.MediaContent;
 import com.dshare.model.Post;
+import com.dshare.storage.ContentManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -268,13 +274,10 @@ public class CreatePostActivity extends AppCompatActivity {
             post.setTimestamp(System.currentTimeMillis());
 
             for (MediaItem mediaItem : selectedMediaList) {
-                MediaContent media = new MediaContent(
-                    UUID.randomUUID().toString(),
-                    CryptoManager.generateContentHash(mediaItem.filePath.getBytes()),
-                    mediaItem.type
-                );
-                media.setFilePath(mediaItem.filePath);
-                post.addMedia(media);
+                MediaContent media = saveMedia(mediaItem);
+                if (media != null) {
+                    post.addMedia(media);
+                }
             }
 
             String dataToSign = post.getPostId() + post.getContent() + post.getTimestamp();
@@ -295,6 +298,45 @@ public class CreatePostActivity extends AppCompatActivity {
             finish();
         } catch (Exception e) {
             Toast.makeText(this, getString(R.string.publish_failed) + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private MediaContent saveMedia(MediaItem mediaItem) {
+        try {
+            if (mediaItem.type == MediaContent.TYPE_IMAGE) {
+                Bitmap bitmap = BitmapFactory.decodeFile(mediaItem.filePath);
+                if (bitmap != null) {
+                    MediaContent media = contentManager.saveImage(bitmap);
+                    if (media != null) {
+                        return media;
+                    }
+                }
+            } else if (mediaItem.type == MediaContent.TYPE_VIDEO) {
+                InputStream videoStream = getContentResolver().openInputStream(mediaItem.uri);
+                if (videoStream != null) {
+                    MediaContent media = contentManager.saveVideo(videoStream);
+                    videoStream.close();
+                    if (media != null) {
+                        return media;
+                    }
+                }
+            }
+            
+            MediaContent fallbackMedia = new MediaContent(
+                UUID.randomUUID().toString(),
+                CryptoManager.generateContentHash(mediaItem.filePath.getBytes()),
+                mediaItem.type
+            );
+            fallbackMedia.setFilePath(mediaItem.filePath);
+            return fallbackMedia;
+        } catch (Exception e) {
+            MediaContent fallbackMedia = new MediaContent(
+                UUID.randomUUID().toString(),
+                CryptoManager.generateContentHash(mediaItem.filePath.getBytes()),
+                mediaItem.type
+            );
+            fallbackMedia.setFilePath(mediaItem.filePath);
+            return fallbackMedia;
         }
     }
 

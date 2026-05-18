@@ -104,7 +104,7 @@
     <string name="posted_prefix">发布于：</string>
     <string name="likes_prefix">点赞：</string>
     <string name="dislikes_prefix">踩：</string>
-    <string name="gold_reward_prefix">金币奖励：</string>
+    <string name="gold_reward_prefix">金币：</string>
     <string name="enter_comment">请输入评论</string>
     <string name="comment_added">评论已添加！</string>
     <string name="add_comment_failed">添加评论失败：</string>

@@ -10,7 +10,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wallet"
+            android:text="@string/wallet_title"
             android:textSize="28sp"
             android:textStyle="bold"
             android:layout_marginBottom="20dp" />
@@ -18,7 +18,7 @@
             android:id="@+id/tv_wallet_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Address: "
+            android:text="@string/address_prefix"
             android:textSize="12sp"
             android:padding="8dp"
             android:background="#F5F5F5" />
@@ -26,7 +26,7 @@
             android:id="@+id/tv_gold_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0 DShare Gold"
+            android:text="@string/gold_balance_default"
             android:textSize="32sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -37,12 +37,12 @@
             android:id="@+id/btn_mine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mine Gold (Proof of Work)"
+            android:text="@string/mine_gold_pow"
             android:layout_marginTop="16dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send Gold"
+            android:text="@string/send_gold"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="24dp" />
@@ -50,7 +50,7 @@
             android:id="@+id/et_to_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Receiver Address"
+            android:hint="@string/receiver_address_hint"
             android:padding="8dp"
             android:layout_marginTop="8dp"
             android:background="@android:drawable/editbox_background" />
@@ -58,7 +58,7 @@
             android:id="@+id/et_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Amount"
+            android:hint="@string/amount_hint"
             android:inputType="number"
             android:padding="8dp"
             android:layout_marginTop="8dp"
@@ -67,12 +67,12 @@
             android:id="@+id/btn_send_gold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Send"
+            android:text="@string/btn_send"
             android:layout_marginTop="8dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Transaction History"
+            android:text="@string/transaction_history"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="24dp" />

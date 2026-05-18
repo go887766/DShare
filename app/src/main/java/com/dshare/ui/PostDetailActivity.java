@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ import com.dshare.model.Comment;
 import com.dshare.model.MediaContent;
 import com.dshare.model.Post;
 import com.dshare.ui.adapters.CommentAdapter;
+import com.dshare.ui.adapters.MediaAdapter;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -68,7 +70,7 @@ public class PostDetailActivity extends AppCompatActivity {
         rvComments = findViewById(R.id.rv_comments);
         etComment = findViewById(R.id.et_comment);
         btnSubmitComment = findViewById(R.id.btn_submit_comment);
-        llMediaContainer = findViewById(R.id.ll_media_container);
+        rvMediaDetail = findViewById(R.id.rv_media_detail);
 
         loadPostDetails();
         loadComments();
@@ -115,64 +117,17 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     private void loadMedia(Post post) {
-        llMediaContainer.removeAllViews();
+        rvMediaDetail.setVisibility(View.GONE);
         
         if (post.getMediaList() == null || post.getMediaList().isEmpty()) {
-            llMediaContainer.setVisibility(View.GONE);
             return;
         }
         
-        llMediaContainer.setVisibility(View.VISIBLE);
+        rvMediaDetail.setVisibility(View.VISIBLE);
+        rvMediaDetail.setLayoutManager(new GridLayoutManager(this, 2));
         
-        for (MediaContent media : post.getMediaList()) {
-            File mediaFile = new File(media.getFilePath());
-            if (mediaFile.exists()) {
-                if (media.getType() == MediaContent.TYPE_IMAGE) {
-                    ImageView imageView = new ImageView(this);
-                    imageView.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        400
-                    ));
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    
-                    try {
-                        Bitmap bitmap = BitmapFactory.decodeFile(media.getFilePath());
-                        imageView.setImageBitmap(bitmap);
-                    } catch (Exception e) {
-                        imageView.setImageResource(android.R.drawable.ic_menu_gallery);
-                    }
-                    
-                    llMediaContainer.addView(imageView);
-                } else if (media.getType() == MediaContent.TYPE_VIDEO) {
-                    LinearLayout videoLayout = new LinearLayout(this);
-                    videoLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        400
-                    ));
-                    videoLayout.setOrientation(LinearLayout.VERTICAL);
-                    videoLayout.setBackgroundColor(Color.BLACK);
-                    
-                    ImageView playIcon = new ImageView(this);
-                    playIcon.setLayoutParams(new LinearLayout.LayoutParams(
-                        100,
-                        100
-                    ));
-                    playIcon.setImageResource(android.R.drawable.ic_media_play);
-                    playIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    
-                    LinearLayout playContainer = new LinearLayout(this);
-                    playContainer.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
-                    ));
-                    playContainer.setGravity(Gravity.CENTER);
-                    playContainer.addView(playIcon);
-                    
-                    videoLayout.addView(playContainer);
-                    llMediaContainer.addView(videoLayout);
-                }
-            }
-        }
+        MediaAdapter mediaAdapter = new MediaAdapter(this, post.getMediaList());
+        rvMediaDetail.setAdapter(mediaAdapter);
     }
 
     private void loadComments() {

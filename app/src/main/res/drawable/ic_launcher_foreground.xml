@@ -5,23 +5,23 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
     
-    <!-- 背景 - 青色 -->
+    <!-- 背景 - 青色方形 -->
     <path
         android:fillColor="#26C6DA"
-        android:pathData="M12,12 L96,12 Q100,12 100,16 L100,92 Q100,96 96,96 L12,96 Q8,96 8,92 L8,16 Q8,12 12,12 Z"/>
+        android:pathData="M12,12 L96,12 L96,96 L12,96 Z"/>
     
     <!-- 左侧大气泡 -->
     <path
         android:fillColor="#E0F7FA"
-        android:pathData="M22,58 L22,36 Q22,28 30,28 L62,28 Q70,28 70,36 L70,44 Q62,42 54,42 L46,42 Q46,42 46,50 L46,70 Q46,78 38,78 L30,78 L22,92 L18,84 L18,36 Q18,28 22,28 Z"/>
+        android:pathData="M22,58 L22,36 L62,36 L62,44 L54,44 L46,44 L46,50 L46,70 L38,70 L30,70 L30,78 L22,78 L22,84 L18,84 L18,36 L22,36 Z"/>
     
     <!-- 中间气泡 -->
     <path
         android:fillColor="#B2EBF2"
-        android:pathData="M46,58 L46,50 Q46,44 52,44 L68,44 Q74,44 74,50 L74,68 Q74,74 68,74 L52,74 Q46,74 46,68 Z"/>
+        android:pathData="M46,58 L46,50 L68,50 L68,68 L52,68 L46,68 Z"/>
     
     <!-- 右侧气泡 -->
     <path
         android:fillColor="#80DEEA"
-        android:pathData="M74,66 L74,50 Q74,44 80,44 L90,44 Q96,44 96,50 L96,70 Q96,76 90,76 L80,76 L74,84 L70,78 L70,50 Q70,44 74,44 Z"/>
+        android:pathData="M74,66 L74,50 L90,50 L90,70 L80,70 L80,76 L74,76 L74,84 L70,84 L70,78 L70,50 Z"/>
 </vector>

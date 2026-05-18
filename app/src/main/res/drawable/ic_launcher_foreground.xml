@@ -5,23 +5,66 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
     
-    <!-- 背景 - 青色方形 -->
+    <!-- 蓝色背景 -->
     <path
-        android:fillColor="#26C6DA"
+        android:fillColor="#1E88E5"
         android:pathData="M12,12 L96,12 L96,96 L12,96 Z"/>
     
-    <!-- 左侧大气泡 -->
-    <path
-        android:fillColor="#E0F7FA"
-        android:pathData="M22,58 L22,36 L62,36 L62,44 L54,44 L46,44 L46,50 L46,70 L38,70 L30,70 L30,78 L22,78 L22,84 L18,84 L18,36 L22,36 Z"/>
+    <!-- 顶部圆环 -->
+    <circle
+        android:cx="54"
+        android:cy="32"
+        android:r="16"
+        android:fillColor="#4CAF50"/>
+    <circle
+        android:cx="54"
+        android:cy="32"
+        android:r="8"
+        android:fillColor="#1E88E5"/>
     
-    <!-- 中间气泡 -->
-    <path
-        android:fillColor="#B2EBF2"
-        android:pathData="M46,58 L46,50 L68,50 L68,68 L52,68 L46,68 Z"/>
+    <!-- 左侧圆环 -->
+    <circle
+        android:cx="28"
+        android:cy="72"
+        android:r="16"
+        android:fillColor="#4CAF50"/>
+    <circle
+        android:cx="28"
+        android:cy="72"
+        android:r="8"
+        android:fillColor="#1E88E5"/>
     
-    <!-- 右侧气泡 -->
+    <!-- 右侧圆环 -->
+    <circle
+        android:cx="80"
+        android:cy="72"
+        android:r="16"
+        android:fillColor="#4CAF50"/>
+    <circle
+        android:cx="80"
+        android:cy="72"
+        android:r="8"
+        android:fillColor="#1E88E5"/>
+    
+    <!-- 连接线条 -->
     <path
-        android:fillColor="#80DEEA"
-        android:pathData="M74,66 L74,50 L90,50 L90,70 L80,70 L80,76 L74,76 L74,84 L70,84 L70,78 L70,50 Z"/>
+        android:strokeWidth="6"
+        android:strokeColor="#4CAF50"
+        android:fillColor="none"
+        android:strokeLinecap="round"
+        android:pathData="M54,48 Q38,54 28,64"/>
+    
+    <path
+        android:strokeWidth="6"
+        android:strokeColor="#4CAF50"
+        android:fillColor="none"
+        android:strokeLinecap="round"
+        android:pathData="M54,48 Q70,54 80,64"/>
+    
+    <path
+        android:strokeWidth="6"
+        android:strokeColor="#4CAF50"
+        android:fillColor="none"
+        android:strokeLinecap="round"
+        android:pathData="M28,88 Q42,94 54,92 Q66,94 80,88"/>
 </vector>

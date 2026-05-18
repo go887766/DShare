@@ -25,7 +25,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
     private static final String TAG = "LocalDatabase";
     private static final String DB_NAME = "dshare.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private Gson gson;
     
     private final AtomicInteger openCounter = new AtomicInteger();
@@ -45,6 +45,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 "nickname TEXT," +
                 "bio TEXT," +
                 "avatar_hash TEXT," +
+                "qq TEXT," +
+                "wechat TEXT," +
+                "phone TEXT," +
                 "created_at INTEGER," +
                 "last_login_at INTEGER)");
 
@@ -145,6 +148,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
             values.put("nickname", user.getNickname());
             values.put("bio", user.getBio());
             values.put("avatar_hash", user.getAvatarHash());
+            values.put("qq", user.getQq());
+            values.put("wechat", user.getWechat());
+            values.put("phone", user.getPhone());
             values.put("created_at", user.getCreatedAt());
             values.put("last_login_at", user.getLastLoginAt());
             db.replace("users", null, values);
@@ -166,8 +172,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 user.setNickname(cursor.getString(3));
                 user.setBio(cursor.getString(4));
                 user.setAvatarHash(cursor.getString(5));
-                user.setCreatedAt(cursor.getLong(6));
-                user.setLastLoginAt(cursor.getLong(7));
+                user.setQq(cursor.getString(6));
+                user.setWechat(cursor.getString(7));
+                user.setPhone(cursor.getString(8));
+                user.setCreatedAt(cursor.getLong(9));
+                user.setLastLoginAt(cursor.getLong(10));
                 return user;
             }
         } finally {

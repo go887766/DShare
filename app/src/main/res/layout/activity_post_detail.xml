@@ -11,21 +11,21 @@
             android:id="@+id/tv_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Author"
+            android:text="@string/author_prefix"
             android:textStyle="bold"
             android:textSize="16sp" />
         <TextView
             android:id="@+id/tv_timestamp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Posted"
+            android:text="@string/posted_prefix"
             android:textSize="12sp"
             android:textColor="#888" />
         <TextView
             android:id="@+id/tv_content_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Content"
+            android:text="@string/content"
             android:textSize="16sp"
             android:layout_marginTop="12dp" />
         <LinearLayout
@@ -38,20 +38,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Likes: 0" />
+                android:text="@string/likes_prefix"
+                android:textSize="14sp"
+                android:drawableStart="@drawable/ic_like"
+                android:drawablePadding="4dp" />
             <TextView
                 android:id="@+id/tv_dislikes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dislikes: 0" />
+                android:text="@string/dislikes_prefix"
+                android:textSize="14sp"
+                android:drawableStart="@drawable/ic_dislike"
+                android:drawablePadding="4dp" />
         </LinearLayout>
         <TextView
             android:id="@+id/tv_gold_reward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="金币: 0"
-            android:layout_marginTop="4dp" />
+            android:text="@string/gold_reward_prefix"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_gold"
+            android:drawablePadding="4dp" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_media_detail"
             android:layout_width="match_parent"
@@ -62,20 +70,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="16dp">
             <Button
                 android:id="@+id/btn_like"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Like"
+                android:text="@string/btn_like"
+                android:drawableStart="@drawable/ic_like"
+                android:drawablePadding="8dp"
                 android:layout_marginEnd="8dp" />
             <Button
                 android:id="@+id/btn_dislike"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dislike" />
+                android:text="@string/dislike"
+                android:drawableStart="@drawable/ic_dislike"
+                android:drawablePadding="8dp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -85,7 +97,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comments"
+            android:text="@string/comments"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="12dp" />
@@ -104,14 +116,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Write a comment..."
-                android:padding="8dp"
+                android:hint="@string/write_comment_hint"
+                android:padding="12dp"
                 android:background="@android:drawable/editbox_background" />
             <Button
                 android:id="@+id/btn_submit_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send" />
+                android:text="@string/btn_send"
+                android:layout_marginStart="8dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

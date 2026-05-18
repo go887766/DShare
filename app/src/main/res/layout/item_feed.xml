@@ -4,34 +4,53 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
-        <TextView
-            android:id="@+id/tv_author"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/author"
-            android:textStyle="bold"
-            android:textSize="14sp" />
-        <TextView
-            android:id="@+id/tv_timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/time"
-            android:textSize="12sp"
-            android:textColor="#888" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_person"
+                android:background="@drawable/circle_bg" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/author"
+                    android:textStyle="bold"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/tv_timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time"
+                    android:textSize="12sp"
+                    android:textColor="#888" />
+            </LinearLayout>
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/content"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp" />
+            android:textSize="15sp"
+            android:layout_marginTop="12dp"
+            android:lineSpacingMultiplier="1.2" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_media"
             android:layout_width="match_parent"
@@ -42,35 +61,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="12dp"
+            android:paddingTop="8dp"
+            android:background="#F5F5F5">
             <TextView
                 android:id="@+id/tv_likes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/likes_default"
-                android:textSize="12sp" />
+                android:textSize="13sp"
+                android:drawableTop="@drawable/ic_like"
+                android:drawablePadding="2dp" />
             <TextView
                 android:id="@+id/tv_dislikes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/dislikes_default"
-                android:textSize="12sp" />
+                android:textSize="13sp"
+                android:drawableTop="@drawable/ic_dislike"
+                android:drawablePadding="2dp" />
             <TextView
                 android:id="@+id/tv_comments"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/comments_colon"
-                android:textSize="12sp" />
+                android:textSize="13sp"
+                android:drawableTop="@drawable/ic_comment"
+                android:drawablePadding="2dp" />
             <TextView
                 android:id="@+id/tv_gold_reward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/wallet_balance_default"
-                android:textSize="12sp"
-                android:textColor="#FF6F00" />
+                android:gravity="center"
+                android:text="@string/gold_balance_default"
+                android:textSize="13sp"
+                android:textColor="#FF6F00"
+                android:drawableTop="@drawable/ic_gold"
+                android:drawablePadding="2dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,16 +113,24 @@
             <Button
                 android:id="@+id/btn_like"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:text="@string/like"
-                android:layout_marginEnd="8dp" />
+                android:drawableStart="@drawable/ic_like"
+                android:drawablePadding="4dp"
+                android:layout_marginEnd="4dp"
+                android:textSize="12sp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
             <Button
                 android:id="@+id/btn_comment"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:text="@string/btn_comment" />
+                android:text="@string/btn_comment"
+                android:drawableStart="@drawable/ic_comment"
+                android:drawablePadding="4dp"
+                android:textSize="12sp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

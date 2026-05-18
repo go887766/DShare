@@ -55,12 +55,12 @@ public class CreatePostActivity extends AppCompatActivity {
     private List<MediaItem> selectedMediaList = new ArrayList<>();
     private ContentManager contentManager;
 
-    private static class MediaItem {
-        Uri uri;
-        String filePath;
-        int type;
+    public static class MediaItem {
+        public Uri uri;
+        public String filePath;
+        public int type;
 
-        MediaItem(Uri uri, String filePath, int type) {
+        public MediaItem(Uri uri, String filePath, int type) {
             this.uri = uri;
             this.filePath = filePath;
             this.type = type;

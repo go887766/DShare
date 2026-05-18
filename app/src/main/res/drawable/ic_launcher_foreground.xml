@@ -4,19 +4,23 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,26 C68,26 80,38 80,54 C80,70 68,82 54,82 C40,82 28,70 28,54 C28,38 40,26 54,26 Z"/>
+    
+    <!-- 绿色方形圆角背景 -->
     <path
         android:fillColor="#4CAF50"
-        android:pathData="M54,32 C64,32 72,40 72,54 C72,68 64,76 54,76 C44,76 36,68 36,54 C36,40 44,32 54,32 Z"/>
+        android:pathData="M24,24 L84,24 Q88,24 88,28 L88,80 Q88,84 84,84 L24,84 Q20,84 20,80 L20,28 Q20,24 24,24 Z"/>
+    
+    <!-- 白色分享图标 -->
+    <!-- 左侧箭头 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M44,52 L44,44 L54,44 L54,40 L64,48 L54,56 L54,52 L44,52 Z"/>
+        android:pathData="M42,46 L42,40 L50,40 L50,36 L60,44 L50,52 L50,48 L42,48 Z"/>
+    <!-- 右侧箭头 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M44,56 L54,56 L54,60 L64,68 L54,76 L54,72 L44,72 Z"/>
+        android:pathData="M42,50 L50,50 L50,54 L60,62 L50,70 L50,66 L42,66 Z"/>
+    <!-- 中间矩形 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M56,50 L68,50 L68,58 L56,58 Z"/>
+        android:pathData="M52,44 L64,44 L64,52 L52,52 Z"/>
 </vector>

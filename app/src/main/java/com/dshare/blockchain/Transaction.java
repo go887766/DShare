@@ -55,4 +55,12 @@ public class Transaction implements Serializable {
     public String toHashString() {
         return txId + fromAddress + toAddress + amount + timestamp + type;
     }
+    
+    public String getTypeDisplayName() {
+        if (TYPE_REWARD.equals(type)) return "奖励";
+        if (TYPE_TRANSFER.equals(type)) return "转账";
+        if (TYPE_MINING.equals(type)) return "挖矿";
+        if (TYPE_POST_REWARD.equals(type)) return "发帖奖励";
+        return type;
+    }
 }

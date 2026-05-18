@@ -70,9 +70,9 @@ public class WalletActivity extends AppCompatActivity {
     private void loadWalletInfo() {
         DShareApplication app = DShareApplication.getInstance();
         if (app.getWallet() != null) {
-            tvAddress.setText("Address: " + app.getWallet().getAddress());
+            tvAddress.setText(getString(R.string.address_prefix) + app.getWallet().getAddress());
             long balance = app.getGoldBalance();
-            tvBalance.setText(balance + " DShare Gold");
+            tvBalance.setText(balance + " " + getString(R.string.dshare_gold_unit));
 
             List<Transaction> transactions = app.getDatabase().getTransactionsForAddress(app.getWallet().getAddress());
             TransactionAdapter adapter = new TransactionAdapter(transactions);
@@ -86,7 +86,7 @@ public class WalletActivity extends AppCompatActivity {
         String amountStr = etAmount.getText().toString().trim();
 
         if (toAddress.isEmpty() || amountStr.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -94,18 +94,18 @@ public class WalletActivity extends AppCompatActivity {
         try {
             amount = Long.parseLong(amountStr);
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid amount", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.invalid_amount), Toast.LENGTH_SHORT).show();
             return;
         }
 
         DShareApplication app = DShareApplication.getInstance();
         if (app.getWallet() == null) {
-            Toast.makeText(this, "Not logged in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.not_logged_in), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (amount <= 0 || amount > app.getGoldBalance()) {
-            Toast.makeText(this, "Invalid amount or insufficient balance", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.invalid_amount_insufficient), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -124,23 +124,23 @@ public class WalletActivity extends AppCompatActivity {
             app.getBlockchain().addTransaction(tx);
             app.getDatabase().saveTransaction(tx);
 
-            Toast.makeText(this, "Transaction sent!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.transaction_sent), Toast.LENGTH_SHORT).show();
             etToAddress.setText("");
             etAmount.setText("");
             loadWalletInfo();
         } catch (Exception e) {
-            Toast.makeText(this, "Failed to send: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.send_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void mineGold() {
         DShareApplication app = DShareApplication.getInstance();
         if (app.getWallet() == null) {
-            Toast.makeText(this, "Not logged in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.not_logged_in), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Toast.makeText(this, "Mining started...", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.mining_started), Toast.LENGTH_LONG).show();
 
         new Thread(new Runnable() {
             @Override
@@ -156,7 +156,7 @@ public class WalletActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(WalletActivity.this, "Mining complete! Reward: " + blockchain.getMiningReward() + " Gold", Toast.LENGTH_LONG).show();
+                            Toast.makeText(WalletActivity.this, getString(R.string.mining_complete) + blockchain.getMiningReward() + " " + getString(R.string.gold_unit), Toast.LENGTH_LONG).show();
                             loadWalletInfo();
                         }
                     });
@@ -164,7 +164,7 @@ public class WalletActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(WalletActivity.this, "Mining failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WalletActivity.this, getString(R.string.mining_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -190,8 +190,8 @@ public class WalletActivity extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Transaction tx = transactions.get(position);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-            holder.text1.setText(tx.getType() + ": " + tx.getAmount() + " Gold");
-            holder.text2.setText("From: " + tx.getFromAddress().substring(0, 8) + "... To: " + tx.getToAddress().substring(0, 8) + "... " + sdf.format(new Date(tx.getTimestamp())));
+            holder.text1.setText(tx.getTypeDisplayName() + ": " + tx.getAmount() + " 金币");
+            holder.text2.setText("从：" + tx.getFromAddress().substring(0, 8) + "... 到：" + tx.getToAddress().substring(0, 8) + "... " + sdf.format(new Date(tx.getTimestamp())));
         }
 
         @Override

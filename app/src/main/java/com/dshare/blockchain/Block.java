@@ -43,6 +43,7 @@ public class Block implements Serializable {
 
     public void mineBlock(int difficulty) {
         String target = new String(new char[difficulty]).replace('\0', '0');
+        hash = calculateHash();
         while (!hash.substring(0, difficulty).equals(target)) {
             nonce++;
             hash = calculateHash();

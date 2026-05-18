@@ -30,6 +30,33 @@
         android:padding="12dp"
         android:background="@android:drawable/editbox_background"
         android:layout_marginTop="12dp" />
+    <EditText
+        android:id="@+id/et_qq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="QQ号"
+        android:inputType="text"
+        android:padding="12dp"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="12dp" />
+    <EditText
+        android:id="@+id/et_wechat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="微信号"
+        android:inputType="text"
+        android:padding="12dp"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="12dp" />
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="电话"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="12dp" />
     <Button
         android:id="@+id/btn_save_profile"
         android:layout_width="match_parent"

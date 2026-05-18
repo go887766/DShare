@@ -1,5 +1,8 @@
 package com.dshare.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,11 +50,18 @@ public class PostDetailActivity extends AppCompatActivity {
     private TextView tvGoldReward;
     private Button btnLike;
     private Button btnDislike;
+    private Button btnBack;
+    private ImageButton btnCopyQq;
+    private ImageButton btnCopyWechat;
+    private ImageButton btnCopyPhone;
     private RecyclerView rvComments;
     private EditText etComment;
     private Button btnSubmitComment;
     private RecyclerView rvMediaDetail;
     private String postId;
+    private String authorQq;
+    private String authorWechat;
+    private String authorPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +78,10 @@ public class PostDetailActivity extends AppCompatActivity {
         tvGoldReward = findViewById(R.id.tv_gold_reward);
         btnLike = findViewById(R.id.btn_like);
         btnDislike = findViewById(R.id.btn_dislike);
+        btnBack = findViewById(R.id.btn_back);
+        btnCopyQq = findViewById(R.id.btn_copy_qq);
+        btnCopyWechat = findViewById(R.id.btn_copy_wechat);
+        btnCopyPhone = findViewById(R.id.btn_copy_phone);
         rvComments = findViewById(R.id.rv_comments);
         etComment = findViewById(R.id.et_comment);
         btnSubmitComment = findViewById(R.id.btn_submit_comment);
@@ -74,6 +89,13 @@ public class PostDetailActivity extends AppCompatActivity {
 
         loadPostDetails();
         loadComments();
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +108,27 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleDislike();
+            }
+        });
+
+        btnCopyQq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyToClipboard("QQ", authorQq);
+            }
+        });
+
+        btnCopyWechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyToClipboard("微信", authorWechat);
+            }
+        });
+
+        btnCopyPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyToClipboard("电话", authorPhone);
             }
         });
 
@@ -112,8 +155,42 @@ public class PostDetailActivity extends AppCompatActivity {
             tvDislikes.setText(getString(R.string.dislikes_prefix) + post.getDislikeCount());
             tvGoldReward.setText(getString(R.string.gold_reward_prefix) + post.getGoldReward());
             
+            // 加载作者信息
+            com.dshare.model.User author = app.getDatabase().getUser(post.getAuthorAddress());
+            if (author != null) {
+                authorQq = author.getQq();
+                authorWechat = author.getWechat();
+                authorPhone = author.getPhone();
+                
+                // 显示或隐藏复制按钮
+                if (authorQq != null && !authorQq.isEmpty()) {
+                    btnCopyQq.setVisibility(View.VISIBLE);
+                } else {
+                    btnCopyQq.setVisibility(View.GONE);
+                }
+                
+                if (authorWechat != null && !authorWechat.isEmpty()) {
+                    btnCopyWechat.setVisibility(View.VISIBLE);
+                } else {
+                    btnCopyWechat.setVisibility(View.GONE);
+                }
+                
+                if (authorPhone != null && !authorPhone.isEmpty()) {
+                    btnCopyPhone.setVisibility(View.VISIBLE);
+                } else {
+                    btnCopyPhone.setVisibility(View.GONE);
+                }
+            }
+            
             loadMedia(post);
         }
+    }
+    
+    private void copyToClipboard(String label, String text) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(label, text);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(this, label + "已复制", Toast.LENGTH_SHORT).show();
     }
 
     private void loadMedia(Post post) {

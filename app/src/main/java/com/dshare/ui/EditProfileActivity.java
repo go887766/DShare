@@ -17,6 +17,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private EditText etNickname;
     private EditText etBio;
+    private EditText etQq;
+    private EditText etWechat;
+    private EditText etPhone;
     private Button btnSave;
     private String currentAddress;
 
@@ -27,6 +30,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
         etNickname = findViewById(R.id.et_nickname);
         etBio = findViewById(R.id.et_bio);
+        etQq = findViewById(R.id.et_qq);
+        etWechat = findViewById(R.id.et_wechat);
+        etPhone = findViewById(R.id.et_phone);
         btnSave = findViewById(R.id.btn_save_profile);
 
         DShareApplication app = DShareApplication.getInstance();
@@ -55,12 +61,18 @@ public class EditProfileActivity extends AppCompatActivity {
         if (user != null) {
             etNickname.setText(user.getNickname() != null ? user.getNickname() : "");
             etBio.setText(user.getBio() != null ? user.getBio() : "");
+            etQq.setText(user.getQq() != null ? user.getQq() : "");
+            etWechat.setText(user.getWechat() != null ? user.getWechat() : "");
+            etPhone.setText(user.getPhone() != null ? user.getPhone() : "");
         }
     }
 
     private void saveProfile() {
         String nickname = etNickname.getText().toString().trim();
         String bio = etBio.getText().toString().trim();
+        String qq = etQq.getText().toString().trim();
+        String wechat = etWechat.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
 
         if (TextUtils.isEmpty(nickname)) {
             Toast.makeText(this, R.string.fill_all_fields, Toast.LENGTH_SHORT).show();
@@ -73,6 +85,9 @@ public class EditProfileActivity extends AppCompatActivity {
         if (user != null) {
             user.setNickname(nickname);
             user.setBio(bio);
+            user.setQq(qq);
+            user.setWechat(wechat);
+            user.setPhone(phone);
             app.getDatabase().saveUser(user);
             Toast.makeText(this, R.string.profile_saved, Toast.LENGTH_SHORT).show();
             finish();

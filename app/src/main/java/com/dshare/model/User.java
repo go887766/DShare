@@ -9,6 +9,9 @@ public class User implements Serializable {
     private String nickname;
     private String bio;
     private String avatarHash;
+    private String qq;
+    private String wechat;
+    private String phone;
     private long createdAt;
     private long lastLoginAt;
 
@@ -19,6 +22,9 @@ public class User implements Serializable {
         this.publicKeyBase64 = publicKeyBase64;
         this.nickname = "User_" + address.substring(0, 8);
         this.bio = "";
+        this.qq = "";
+        this.wechat = "";
+        this.phone = "";
         this.createdAt = System.currentTimeMillis();
         this.lastLoginAt = System.currentTimeMillis();
     }
@@ -46,4 +52,13 @@ public class User implements Serializable {
 
     public long getLastLoginAt() { return lastLoginAt; }
     public void setLastLoginAt(long lastLoginAt) { this.lastLoginAt = lastLoginAt; }
+
+    public String getQq() { return qq; }
+    public void setQq(String qq) { this.qq = qq; }
+
+    public String getWechat() { return wechat; }
+    public void setWechat(String wechat) { this.wechat = wechat; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 }

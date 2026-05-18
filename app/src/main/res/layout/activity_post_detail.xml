@@ -7,6 +7,57 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="←"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="24sp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                style="?android:attr/borderlessButtonStyle" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <ImageButton
+                android:id="@+id/btn_copy_qq"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_qq"
+                android:contentDescription="复制QQ"
+                android:padding="4dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/btn_copy_wechat"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_wechat"
+                android:contentDescription="复制微信"
+                android:padding="4dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/btn_copy_phone"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_phone"
+                android:contentDescription="复制电话"
+                android:padding="4dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="match_parent"
@@ -39,27 +90,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/likes_prefix"
-                android:textSize="14sp"
-                android:drawableStart="@drawable/ic_like"
-                android:drawablePadding="4dp" />
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/tv_dislikes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/dislikes_prefix"
-                android:textSize="14sp"
-                android:drawableStart="@drawable/ic_dislike"
-                android:drawablePadding="4dp" />
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_gold_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gold_reward_prefix"
+                android:textSize="14sp" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_gold_reward"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gold_reward_prefix"
-            android:layout_marginTop="4dp"
-            android:drawableStart="@drawable/ic_gold"
-            android:drawablePadding="4dp" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_media_detail"
             android:layout_width="match_parent"
@@ -77,17 +122,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/btn_like"
-                android:drawableStart="@drawable/ic_like"
-                android:drawablePadding="8dp"
                 android:layout_marginEnd="8dp" />
             <Button
                 android:id="@+id/btn_dislike"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/dislike"
-                android:drawableStart="@drawable/ic_dislike"
-                android:drawablePadding="8dp" />
+                android:text="@string/dislike" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"

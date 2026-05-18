@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(address) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please enter address and password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "请输入地址和密码", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         User savedUser = app.getDatabase().getUser(address);
 
         if (savedUser == null) {
-            Toast.makeText(this, "User not found, please register first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "用户不存在，请先注册", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             String salt = savedUser.getAddress().substring(0, 16);
             String passwordHash = CryptoManager.hashPassword(password, salt);
             if (!passwordHash.equals(storedHash)) {
-                Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "密码错误", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -83,11 +83,11 @@ public class LoginActivity extends AppCompatActivity {
             savedUser.setLastLoginAt(System.currentTimeMillis());
             app.getDatabase().saveUser(savedUser);
 
-            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "登录成功！", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainFeedActivity.class));
             finish();
         } catch (Exception e) {
-            Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "登录失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

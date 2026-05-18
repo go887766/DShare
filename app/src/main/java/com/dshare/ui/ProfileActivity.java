@@ -21,6 +21,9 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvAddress;
     private TextView tvNickname;
     private TextView tvBio;
+    private TextView tvQq;
+    private TextView tvWechat;
+    private TextView tvPhone;
     private TextView tvPostCount;
     private TextView tvGoldBalance;
     private Button btnCopyAddress;
@@ -35,6 +38,9 @@ public class ProfileActivity extends AppCompatActivity {
         tvAddress = findViewById(R.id.tv_address);
         tvNickname = findViewById(R.id.tv_nickname);
         tvBio = findViewById(R.id.tv_bio);
+        tvQq = findViewById(R.id.tv_qq);
+        tvWechat = findViewById(R.id.tv_wechat);
+        tvPhone = findViewById(R.id.tv_phone);
         tvPostCount = findViewById(R.id.tv_post_count);
         tvGoldBalance = findViewById(R.id.tv_gold_balance);
         btnCopyAddress = findViewById(R.id.btn_copy_address);
@@ -78,6 +84,9 @@ public class ProfileActivity extends AppCompatActivity {
             tvAddress.setText(getString(R.string.address_prefix) + walletAddress);
             tvNickname.setText(getString(R.string.nickname_prefix) + user.getNickname());
             tvBio.setText(getString(R.string.bio_prefix) + (user.getBio() != null ? user.getBio() : getString(R.string.no_bio_yet)));
+            tvQq.setText("QQ: " + (user.getQq() != null && !user.getQq().isEmpty() ? user.getQq() : "未设置"));
+            tvWechat.setText("微信: " + (user.getWechat() != null && !user.getWechat().isEmpty() ? user.getWechat() : "未设置"));
+            tvPhone.setText("电话: " + (user.getPhone() != null && !user.getPhone().isEmpty() ? user.getPhone() : "未设置"));
             tvGoldBalance.setText(getString(R.string.gold_prefix) + app.getGoldBalance());
         }
 

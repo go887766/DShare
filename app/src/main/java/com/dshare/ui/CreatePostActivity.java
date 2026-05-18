@@ -47,8 +47,9 @@ public class CreatePostActivity extends AppCompatActivity {
     private EditText etContent;
     private Button btnPickImage;
     private Button btnPickVideo;
-    private LinearLayout llMediaPreview;
-    private Button btnSubmit;
+    private androidx.recyclerview.widget.RecyclerView rvMediaPreview;
+    private android.widget.Button btnSubmit;
+    private PreviewMediaAdapter previewAdapter;
     private TextView tvMediaHint;
 
     private List<MediaItem> selectedMediaList = new ArrayList<>();
@@ -80,8 +81,19 @@ public class CreatePostActivity extends AppCompatActivity {
         etContent = findViewById(R.id.et_content);
         btnPickImage = findViewById(R.id.btn_pick_image);
         btnPickVideo = findViewById(R.id.btn_pick_video);
-        llMediaPreview = findViewById(R.id.ll_media_preview);
+        rvMediaPreview = findViewById(R.id.rv_media_preview);
         btnSubmit = findViewById(R.id.btn_submit);
+        
+        rvMediaPreview.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(this, 3));
+        previewAdapter = new PreviewMediaAdapter(this, selectedMediaList);
+        rvMediaPreview.setAdapter(previewAdapter);
+        previewAdapter.setOnRemoveClickListener(new PreviewMediaAdapter.OnRemoveClickListener() {
+            @Override
+            public void onRemove(int position) {
+                selectedMediaList.remove(position);
+                previewAdapter.notifyDataSetChanged();
+            }
+        });
 
         btnPickImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,103 +165,14 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void refreshMediaPreview() {
-        llMediaPreview.removeAllViews();
-        
         if (selectedMediaList.isEmpty()) {
-            llMediaPreview.setVisibility(View.GONE);
+            rvMediaPreview.setVisibility(View.GONE);
             return;
         }
-        
-        llMediaPreview.setVisibility(View.VISIBLE);
-        
-        for (int i = 0; i < selectedMediaList.size(); i++) {
-            MediaItem item = selectedMediaList.get(i);
-            llMediaPreview.addView(createMediaPreviewCard(item, i));
-        }
+        rvMediaPreview.setVisibility(View.VISIBLE);
+        previewAdapter.notifyDataSetChanged();
     }
-
-    private LinearLayout createMediaPreviewCard(MediaItem item, final int position) {
-        LinearLayout card = new LinearLayout(this);
-        card.setLayoutParams(new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-        card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(0, 0, 0, 12);
-
-        FrameLayout mediaContainer = new FrameLayout(this);
-        mediaContainer.setLayoutParams(new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            250
-        ));
-        mediaContainer.setBackgroundColor(android.graphics.Color.parseColor("#111111"));
-
-        if (item.type == MediaContent.TYPE_IMAGE) {
-            ImageView imageView = new ImageView(this);
-            imageView.setLayoutParams(new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            ));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setImageURI(item.uri);
-            mediaContainer.addView(imageView);
-        } else {
-            ImageView thumbnail = new ImageView(this);
-            thumbnail.setLayoutParams(new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            ));
-            thumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            
-            try {
-                Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(
-                    item.filePath, 
-                    MediaStore.Images.Thumbnails.MINI_KIND
-                );
-                if (bitmap != null) {
-                    thumbnail.setImageBitmap(bitmap);
-                } else {
-                    thumbnail.setBackgroundColor(android.graphics.Color.BLACK);
-                }
-            } catch (Exception e) {
-                thumbnail.setBackgroundColor(android.graphics.Color.BLACK);
-            }
-            
-            mediaContainer.addView(thumbnail);
-            
-            ImageView playIcon = new ImageView(this);
-            FrameLayout.LayoutParams playParams = new FrameLayout.LayoutParams(
-                80, 80
-            );
-            playParams.gravity = Gravity.CENTER;
-            playIcon.setLayoutParams(playParams);
-            playIcon.setImageResource(android.R.drawable.ic_media_play);
-            playIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            mediaContainer.addView(playIcon);
-        }
-
-        card.addView(mediaContainer);
-
-        Button removeBtn = new Button(this);
-        LinearLayout.LayoutParams removeParams = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        removeParams.topMargin = 8;
-        removeBtn.setLayoutParams(removeParams);
-        removeBtn.setText(R.string.remove);
-        removeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedMediaList.remove(position);
-                refreshMediaPreview();
-            }
-        });
-        card.addView(removeBtn);
-
-        return card;
-    }
-
+    
     private void submitPost() {
         String content = etContent.getText().toString().trim();
         if (TextUtils.isEmpty(content) && selectedMediaList.isEmpty()) {

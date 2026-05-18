@@ -41,6 +41,8 @@
         <activity android:name=".ui.PostDetailActivity" />
         <activity android:name=".ui.WalletActivity" />
         <activity android:name=".ui.EditProfileActivity" />
+        <activity android:name=".ui.FullscreenImageActivity" android:theme="@style/Theme.DShare" />
+        <activity android:name=".ui.FullscreenVideoActivity" android:theme="@style/Theme.DShare" />
 
     </application>
 

@@ -46,11 +46,11 @@
         android:textSize="12sp"
         android:textColor="#888888"
         android:layout_marginTop="8dp" />
-    <LinearLayout
-        android:id="@+id/ll_media_preview"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_media_preview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="8dp"
         android:visibility="gone" />
     <Button

@@ -28,7 +28,7 @@ import com.dshare.model.Comment;
 import com.dshare.model.MediaContent;
 import com.dshare.model.Post;
 import com.dshare.ui.adapters.CommentAdapter;
-import com.dshare.ui.adapters.MediaAdapter;
+import com.dshare.ui.adapters.DetailMediaAdapter;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -124,9 +124,9 @@ public class PostDetailActivity extends AppCompatActivity {
         }
         
         rvMediaDetail.setVisibility(View.VISIBLE);
-        rvMediaDetail.setLayoutManager(new GridLayoutManager(this, 2));
+        rvMediaDetail.setLayoutManager(new LinearLayoutManager(this));
         
-        MediaAdapter mediaAdapter = new MediaAdapter(this, post.getMediaList());
+        DetailMediaAdapter mediaAdapter = new DetailMediaAdapter(this, post.getMediaList());
         rvMediaDetail.setAdapter(mediaAdapter);
     }
 
